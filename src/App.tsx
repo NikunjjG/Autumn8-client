@@ -6,6 +6,8 @@ import { WEB_SOCKET_ACTIONS } from './socket/ws_actions'
 import { createBrowserRouter, RouterProvider, useParams } from 'react-router-dom';
 import Login from '@/pages/Login';
 import Signup from '@/pages/Signup';
+import ProtectedRoute from '@/components/guards/ProtectedRoute';
+import PublicRoute from '@/components/guards/PublicRoute';
 
 // Phosphor icons
 import { 
@@ -14,7 +16,6 @@ import {
   Trash, 
   WarningCircle, 
   ShareNetwork, 
-  DownloadSimple, 
   Check, 
   Plus, 
   FileCsv
@@ -41,6 +42,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useAppSelector } from './store/store'
 
 interface ISessionToken {
   sessionId: string;
@@ -63,6 +65,8 @@ function SocketPlaceHolder() {
     userId: `user_${Math.random().toString(36).substring(2, 11)}`,
     userName: "Nikunj"
   }))
+
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
 
   const socketRef = useRef<null | Socket>(null)
   const [sessionToken, setSessionToken] = useState<ISessionToken | null>(null)
@@ -209,43 +213,6 @@ function SocketPlaceHolder() {
         </div>
       )}
 
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4">
-            <h1 className="text-xl font-bold tracking-tight text-slate-900 flex items-center">
-              <span className="text-primary font-extrabold mr-1">E</span> EduManage
-            </h1>
-            <span className="text-sm font-medium text-slate-400">Design System v1.0</span>
-          </div>
-          <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
-            <a className="hover:text-primary transition-colors" href="#colors">Colors</a>
-            <a className="hover:text-primary transition-colors" href="#typography">Typography</a>
-            <a className="hover:text-primary transition-colors" href="#forms">Forms</a>
-            <a className="hover:text-primary transition-colors" href="#tables">Tables</a>
-            <a className="hover:text-primary transition-colors" href="#spacing">Spacing</a>
-          </nav>
-          
-          <div className="flex items-center gap-3">
-            {!socketRef.current ? (
-              <Button onClick={enableCollaboration} className="flex items-center gap-1.5">
-                <ShareNetwork className="size-4" />
-                Collaborate
-              </Button>
-            ) : (
-              <span className="flex items-center gap-1.5 text-xs font-semibold bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200">
-                <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
-                Live Collaboration Active
-              </span>
-            )}
-            <Button variant="outline" size="sm" onClick={() => triggerToast("Assets downloaded successfully!")} className="hidden sm:inline-flex items-center gap-1">
-              <DownloadSimple className="size-4" />
-              Download Assets
-            </Button>
-          </div>
-        </div>
-      </header>
-
       {/* Real-time Collaboration Sandbox Widget */}
       {sessionToken?.sessionToken && (
         <div className="bg-orange-50 border-b border-orange-200 py-3">
@@ -281,7 +248,7 @@ function SocketPlaceHolder() {
             <h2 className="text-3xl font-bold text-slate-900 mb-2">Color Palette</h2>
             <p className="text-slate-500">Our color system is built to ensure consistent visual identity and accessibility.</p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {/* Primary Brand */}
             <div className="card-outline">
@@ -691,20 +658,30 @@ function SocketPlaceHolder() {
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <SocketPlaceHolder/>
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "/",
+        element: <SocketPlaceHolder />,
+      },
+      {
+        path: "/:token",
+        element: <SocketPlaceHolder />,
+      },
+    ],
   },
   {
-    path: "/:token",
-    element: <SocketPlaceHolder/>
-  },
-  {
-    path: "/login",
-    element: <Login />
-  },
-  {
-    path: "/signup",
-    element: <Signup />
+    element: <PublicRoute />,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+    ],
   },
 ]);
 
