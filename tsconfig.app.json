@@ -19,14 +19,13 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
-  },
+    "noFallthroughCasesInSwitch": true,
 
-  /* Path Aliases for Shadcn */
-    "baseUrl": ".",
+    /* Path Aliases for Shadcn */
     "paths": {
       "@/*": ["./src/*"]
-    },
+    }
+  },
     
   "include": ["src"]
 }

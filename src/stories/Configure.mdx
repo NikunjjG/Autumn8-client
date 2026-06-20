@@ -1,0 +1,65 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Welcome/EduManage Design System" />
+
+<div className="sb-container" style={{ fontFamily: 'Inter, sans-serif', color: '#334155', maxWidth: '800px', margin: '0 auto', padding: '2rem 1rem' }}>
+  
+  <h1 style={{ color: '#0F172A', fontSize: '2.25rem', fontWeight: '800', marginBottom: '1rem', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.75rem' }}>
+    <span style={{ color: '#f26522' }}>E</span> EduManage Design System v1.0
+  </h1>
+  
+  <p style={{ fontSize: '1.125rem', lineHeight: '1.75rem', color: '#64748B', marginBottom: '2rem' }}>
+    Welcome to the official component documentation workspace for the EduManage project, built using <strong>Shadcn UI</strong>, <strong>Tailwind CSS v4</strong>, and <strong>Storybook 10.x</strong>.
+  </p>
+
+  <hr style={{ border: '0', borderTop: '1px solid #F1F5F9', margin: '2rem 0' }} />
+
+  <h2 style={{ color: '#1E293B', fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem' }}>🎨 Design System Tokens</h2>
+  <p style={{ marginBottom: '1.25rem' }}>
+    The components utilize a standardized color scheme and font stack configured in <code>src/index.css</code>:
+  </p>
+  <ul style={{ listStyleType: 'disc', paddingLeft: '1.5rem', lineHeight: '1.625rem', marginBottom: '2rem' }}>
+    <li><strong>Primary Brand Orange</strong>: <code>#F26522</code> (Hover: <code>#D9541A</code>)</li>
+    <li><strong>Functional Statuses</strong>: Success (<code>#10B981</code>), Warning (<code>#F59E0B</code>), Error (<code>#F43F5E</code>), Info (<code>#0EA5E9</code>)</li>
+    <li><strong>Neutral Scale</strong>: Slate gray neutrals (<code>50</code> to <code>900</code>) for airy, clean border definitions.</li>
+    <li><strong>Typography</strong>: Primary font family set to <code>Inter</code>.</li>
+  </ul>
+
+  <h2 style={{ color: '#1E293B', fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem' }}>🧩 Available UI Components</h2>
+  <p style={{ marginBottom: '1.25rem' }}>
+    You can inspect the following customized components in the sidebar:
+  </p>
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
+    <div style={{ border: '1px solid #E2E8F0', borderRadius: '0.5rem', padding: '1rem', backgroundColor: '#F8FAFC' }}>
+      <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem', color: '#0F172A', fontWeight: '600' }}>Button</h3>
+      <p style={{ margin: '0', fontSize: '0.875rem', color: '#64748B' }}>Primary brand interactions and multiple sizing modes.</p>
+    </div>
+    <div style={{ border: '1px solid #E2E8F0', borderRadius: '0.5rem', padding: '1rem', backgroundColor: '#F8FAFC' }}>
+      <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem', color: '#0F172A', fontWeight: '600' }}>Input &amp; Textarea</h3>
+      <p style={{ margin: '0', fontSize: '0.875rem', color: '#64748B' }}>Supports standard styles and the borderless <em>ghost</em> input variant.</p>
+    </div>
+    <div style={{ border: '1px solid #E2E8F0', borderRadius: '0.5rem', padding: '1rem', backgroundColor: '#F8FAFC' }}>
+      <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem', color: '#0F172A', fontWeight: '600' }}>Dropdown Select</h3>
+      <p style={{ margin: '0', fontSize: '0.875rem', color: '#64748B' }}>Ghost style trigger selectors for streamlined menus.</p>
+    </div>
+    <div style={{ border: '1px solid #E2E8F0', borderRadius: '0.5rem', padding: '1rem', backgroundColor: '#F8FAFC' }}>
+      <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem', color: '#0F172A', fontWeight: '600' }}>Checkbox &amp; Radio</h3>
+      <p style={{ margin: '0', fontSize: '0.875rem', color: '#64748B' }}>Form controls styled with rounded shapes matching guidelines.</p>
+    </div>
+    <div style={{ border: '1px solid #E2E8F0', borderRadius: '0.5rem', padding: '1rem', backgroundColor: '#F8FAFC', gridColumn: 'span 2' }}>
+      <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem', color: '#0F172A', fontWeight: '600' }}>Data Table</h3>
+      <p style={{ margin: '0', fontSize: '0.875rem', color: '#64748B' }}>High-fidelity student enrollment tables containing name avatars, status tags, and action items.</p>
+    </div>
+  </div>
+
+  <h2 style={{ color: '#1E293B', fontSize: '1.5rem', fontWeight: '700', marginBottom: '1rem' }}>🚀 Quick Commands</h2>
+  <p style={{ marginBottom: '1rem' }}>
+    Use the following commands inside the client workspace:
+  </p>
+  <pre style={{ backgroundColor: '#1E293B', color: '#F8FAFC', padding: '1rem', borderRadius: '0.375rem', overflowX: 'auto', fontSize: '0.875rem', marginBottom: '1rem' }}>
+    npm run storybook
+  </pre>
+  <pre style={{ backgroundColor: '#1E293B', color: '#F8FAFC', padding: '1rem', borderRadius: '0.375rem', overflowX: 'auto', fontSize: '0.875rem' }}>
+    npm run build-storybook
+  </pre>
+</div>
