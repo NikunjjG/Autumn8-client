@@ -4,6 +4,8 @@ import { establishSocketConnection } from './socket/socket.functions'
 import type { Socket } from 'socket.io-client'
 import { WEB_SOCKET_ACTIONS } from './socket/ws_actions'
 import { createBrowserRouter, RouterProvider, useParams } from 'react-router-dom';
+import Login from '@/pages/Login';
+import Signup from '@/pages/Signup';
 
 // Phosphor icons
 import { 
@@ -695,7 +697,15 @@ const router = createBrowserRouter([
   {
     path: "/:token",
     element: <SocketPlaceHolder/>
-  }
+  },
+  {
+    path: "/login",
+    element: <Login />
+  },
+  {
+    path: "/signup",
+    element: <Signup />
+  },
 ]);
 
 export default function App() {
