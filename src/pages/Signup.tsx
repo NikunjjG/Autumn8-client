@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -14,6 +14,7 @@ import {
   EyeSlash,
   CheckCircle,
 } from '@phosphor-icons/react'
+import { axiosInstance } from '@/utils/axiosInstance'
 
 // ─── Zod schema ────────────────────────────────────────────────────────────────
 
@@ -72,6 +73,7 @@ export default function Signup() {
   const [showConfirm, setShowConfirm] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+  const navigate = useNavigate()
 
   const {
     register,
@@ -86,14 +88,17 @@ export default function Signup() {
   const password = watch('password')
   const strength = getPasswordStrength(password)
 
-  const onSubmit = async (_data: SignupFormData) => {
+  const onSubmit = async (data: SignupFormData) => {
     setFormError(null)
     try {
-      // TODO: wire up axiosInstance signup call
-      await new Promise(r => setTimeout(r, 1500))
+      await axiosInstance.post('/auth/signup', {
+        username: data.fullName,
+        email: data.email,
+        password: data.password,
+      })
       setSuccess(true)
-    } catch {
-      setFormError('Something went wrong. Please try again later.')
+    } catch (err: any) {
+      setFormError(err.response?.data?.message ?? 'Something went wrong. Please try again later.')
     }
   }
 
@@ -109,9 +114,7 @@ export default function Signup() {
           <p className="text-slate-500 text-sm mb-8">
             Welcome aboard. Your Autumn8 account is ready to use.
           </p>
-          <Link to="/login">
-            <Button className="w-full">Sign in to your account</Button>
-          </Link>
+          <Button className="w-full" onClick={() => navigate('/login')}>Sign in to your account</Button>
         </div>
       </div>
     )

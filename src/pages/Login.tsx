@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -7,6 +7,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import { EnvelopeSimple, LockSimple, WarningCircle, Eye, EyeSlash } from '@phosphor-icons/react'
+import { axiosInstance } from '@/utils/axiosInstance'
+import { useAppDispatch } from '@/store/store'
+import { setCredentials } from '@/store/slices/authSlice'
 
 // ─── Zod schema ────────────────────────────────────────────────────────────────
 
@@ -44,6 +47,8 @@ function FieldError({ message }: { message?: string }) {
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const {
     register,
@@ -58,14 +63,24 @@ export default function Login() {
 
   const rememberMe = watch('rememberMe')
 
-  const onSubmit = async (_data: LoginFormData) => {
+  const onSubmit = async (data: LoginFormData) => {
     setFormError(null)
     try {
-      // TODO: wire up axiosInstance login call
-      await new Promise(r => setTimeout(r, 1200))
-      // navigate('/dashboard')
-    } catch {
-      setFormError('Invalid email or password. Please try again.')
+      const response = await axiosInstance.post('/auth/login', {
+        email: data.email,
+        password: data.password,
+      })
+      dispatch(setCredentials({
+        token: response.data.token,
+        user: {
+          id: response.data.id,
+          username: response.data.username,
+          email: response.data.email,
+        },
+      }))
+      navigate('/')
+    } catch (err: any) {
+      setFormError(err.response?.data?.message ?? 'Invalid email or password. Please try again.')
     }
   }
 
@@ -166,9 +181,6 @@ export default function Login() {
                 <label htmlFor="login-password" className="block text-xs font-bold text-slate-700 uppercase tracking-wide">
                   Password
                 </label>
-                <a href="#" className="text-xs text-primary font-semibold hover:underline transition-colors">
-                  Forgot password?
-                </a>
               </div>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 pointer-events-none">
@@ -196,19 +208,6 @@ export default function Login() {
               </div>
               <FieldError message={errors.password?.message} />
             </div>
-
-            {/* Remember me */}
-            <div className="flex items-center gap-2.5">
-              <Checkbox
-                id="login-remember"
-                checked={!!rememberMe}
-                onCheckedChange={checked => setValue('rememberMe', !!checked)}
-              />
-              <label htmlFor="login-remember" className="text-sm text-slate-600 select-none cursor-pointer">
-                Remember me for 30 days
-              </label>
-            </div>
-
             {/* Submit */}
             <Button type="submit" className="w-full mt-2" disabled={isSubmitting}>
               {isSubmitting ? (
