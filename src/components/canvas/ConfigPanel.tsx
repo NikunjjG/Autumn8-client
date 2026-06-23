@@ -13,7 +13,7 @@ interface ConfigPanelProps {
 }
 
 function StartConfig({ node }: { node: Node }) {
-  const webhookUrl = (node.data.webhookUrl as string) || 'Generated on publish'
+  const webhookUrl = (node.data?.webhookUrl as string) || 'Generated on publish'
 
   return (
     <div className="space-y-4">
