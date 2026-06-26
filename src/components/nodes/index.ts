@@ -4,8 +4,9 @@ import InputNode from './InputNode'
 import LLMAgentNode from './LLMAgentNode'
 import StructureNode from './StructureNode'
 import CodeNode from './CodeNode'
-import MCPToolNode from './MCPToolNode'
 import HttpRequestNode from './HttpRequestNode'
+import ConditionalNode from './ConditionalNode'
+import ParallelNode from './ParallelNode'
 
 export const nodeTypes = {
   start: StartNode,
@@ -14,6 +15,7 @@ export const nodeTypes = {
   llm_agent: LLMAgentNode,
   structure: StructureNode,
   code: CodeNode,
-  mcp_tool: MCPToolNode,
   http_request: HttpRequestNode,
+  conditional: ConditionalNode,
+  parallel: ParallelNode,
 }

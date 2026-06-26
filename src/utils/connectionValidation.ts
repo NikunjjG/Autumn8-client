@@ -1,13 +1,16 @@
 import type { Node, Edge, Connection } from '@xyflow/react'
 
 const COMPATIBLE_HANDLES: Record<string, string[]> = {
-  context_out: ['context_in'],
   prompt_out: ['prompt_in'],
   structure_out: ['structure_in'],
-  tool_out: ['tool_in'],
 }
 
-const MULTI_CONNECTION_HANDLES = new Set(['tool_in'])
+function getCompatibleTargets(sourceHandle: string): string[] {
+  if (sourceHandle.startsWith('context_out')) return ['context_in']
+  return COMPATIBLE_HANDLES[sourceHandle] ?? []
+}
+
+const MULTI_CONNECTION_HANDLES = new Set<string>()
 
 function hasCycle(_nodes: Node[], edges: Edge[], newSource: string, newTarget: string): boolean {
   const adjacency: Record<string, string[]> = {}
@@ -56,8 +59,8 @@ export function isValidConnection(
     return { valid: false, reason: 'Node not found' }
   }
 
-  const allowed = COMPATIBLE_HANDLES[sourceHandle]
-  if (!allowed || !allowed.includes(targetHandle)) {
+  const allowed = getCompatibleTargets(sourceHandle)
+  if (allowed.length === 0 || !allowed.includes(targetHandle)) {
     return { valid: false, reason: `Cannot connect ${sourceHandle} to ${targetHandle}` }
   }
 

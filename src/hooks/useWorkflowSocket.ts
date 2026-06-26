@@ -29,6 +29,7 @@ export function useWorkflowSocket({
   const remoteCursorsRef = useRef<Map<number, RemoteCursor>>(new Map())
   const cursorsStateRef = useRef<RemoteCursor[]>([])
   const setCursorsCallbackRef = useRef<((cursors: RemoteCursor[]) => void) | null>(null)
+  const executionCallbackRef = useRef<((event: any) => void) | null>(null)
 
   useEffect(() => {
     const token = localStorage.getItem('authToken')
@@ -85,6 +86,10 @@ export function useWorkflowSocket({
     socket.on(WEB_SOCKET_ACTIONS.CURSOR_MOVEMENT, (data: RemoteCursor) => {
       remoteCursorsRef.current.set(data.userId, data)
       updateCursorsState()
+    })
+
+    socket.on('EXECUTION_PROGRESS', (data: any) => {
+      executionCallbackRef.current?.(data)
     })
 
     socket.on(WEB_SOCKET_ACTIONS.SESSION_EXPIRED, () => {
@@ -145,6 +150,10 @@ export function useWorkflowSocket({
     setCursorsCallbackRef.current = callback
   }, [])
 
+  const subscribeToExecution = useCallback((callback: (event: any) => void) => {
+    executionCallbackRef.current = callback
+  }, [])
+
   return {
     emitNodesChange,
     emitEdgesChange,
@@ -153,5 +162,6 @@ export function useWorkflowSocket({
     emitNodeDataUpdated,
     emitCursorMovement,
     subscribeToCursors,
+    subscribeToExecution,
   }
 }

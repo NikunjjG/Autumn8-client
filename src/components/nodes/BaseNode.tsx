@@ -22,12 +22,15 @@ interface BaseNodeProps {
 const HANDLE_COLORS: Record<string, string> = {
   context_in: '#f26522',
   context_out: '#f26522',
+  context_out_true: '#10B981',
+  context_out_false: '#F43F5E',
+  context_out_1: '#8B5CF6',
+  context_out_2: '#0EA5E9',
+  context_out_3: '#EAB308',
   prompt_in: '#0EA5E9',
   prompt_out: '#0EA5E9',
   structure_in: '#14B8A6',
   structure_out: '#14B8A6',
-  tool_in: '#6366F1',
-  tool_out: '#6366F1',
 }
 
 const POSITION_MAP: Record<string, Position> = {

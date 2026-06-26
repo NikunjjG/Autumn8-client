@@ -9,7 +9,7 @@ export default function ProtectedRoute() {
   }
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
+    <div className="h-screen flex flex-col overflow-hidden min-h-0">
       <Topbar />
       <Outlet />
     </div>

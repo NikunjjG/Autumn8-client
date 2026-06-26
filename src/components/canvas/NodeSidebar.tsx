@@ -4,8 +4,9 @@ import {
   Brain,
   TreeStructure,
   Terminal,
-  Plug,
   Globe,
+  GitFork,
+  ArrowsSplit,
 } from '@phosphor-icons/react'
 import type { ReactNode, DragEvent } from 'react'
 
@@ -37,10 +38,16 @@ const NODE_GROUPS: NodeGroup[] = [
     ],
   },
   {
+    category: 'Logic',
+    items: [
+      { type: 'conditional', label: 'Condition', icon: <GitFork weight="fill" className="size-4" />, color: '#F59E0B' },
+      { type: 'parallel', label: 'Parallel', icon: <ArrowsSplit weight="fill" className="size-4" />, color: '#F59E0B' },
+    ],
+  },
+  {
     category: 'Integrations',
     items: [
       { type: 'http_request', label: 'HTTP Request', icon: <Globe weight="bold" className="size-4" />, color: '#f26522' },
-      { type: 'mcp_tool', label: 'MCP Tool', icon: <Plug weight="fill" className="size-4" />, color: '#6366F1' },
     ],
   },
   {

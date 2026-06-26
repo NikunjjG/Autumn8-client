@@ -1,73 +1,72 @@
-# React + TypeScript + Vite
+# Autumn8 — Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Visual workflow editor and dashboard for the Autumn8 platform. Built with React, TypeScript, Vite, Tailwind CSS, ShadCN, and XYFlow.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Workflow Canvas
+- **XYFlow-powered editor** — controlled state, drag-and-drop from sidebar, configurable nodes
+- **9 node types** with distinct visual identities (color-coded, shape-differentiated)
+- **Connection validation** — type-safe handles (context, prompt, structure), DAG enforcement, single-connection-per-input rule
+- **Config panel** — side panel with node-specific editors. Python and JSON editors with syntax highlighting (PrismJS). `/` mention system for referencing upstream node outputs.
+- **Execution terminal** — real-time progress display during workflow simulation, color-coded events, context object dump on completion
 
-## React Compiler
+### Collaboration
+- **Socket.io integration** — real-time delta sync for node/edge changes between users
+- **Cursor sharing** — Figma-style colored cursors with username labels, flow-coordinate normalized across zoom/pan levels
+- **Session management** — owner generates shareable URLs, collaborators can edit but not save, session can be revoked
+- **Role awareness** — UI adapts based on URL (owner sees full toolbar, collaborator sees "Live session" badge)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Authentication
+- **Redux Toolkit** — auth state (token, user, credits) persisted in localStorage
+- **Protected/Public route guards** — redirect-based, localStorage token check
+- **Axios interceptors** — auto-attach Bearer token, catch 401 → clear state → redirect to login
 
-## Expanding the ESLint configuration
+### Dashboard
+- Published and unpublished workflow tables
+- Create, rename (inline in editor), delete workflows
+- Collaboration badge per workflow
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Layer | Technology |
+|-------|------------|
+| Framework | React 19, TypeScript, Vite |
+| Styling | Tailwind CSS 4, ShadCN (Radix Lyra) |
+| Canvas | @xyflow/react |
+| State | Redux Toolkit |
+| Real-time | Socket.io Client |
+| HTTP | Axios |
+| Icons | Phosphor Icons |
+| Code Editor | react-simple-code-editor + PrismJS |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Project Structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/
+│   ├── canvas/          # ConfigPanel, NodeSidebar, ExecutionTerminal, ExecuteModal, RemoteCursors
+│   ├── guards/          # ProtectedRoute, PublicRoute
+│   ├── layout/          # Topbar (credits display, profile dropdown)
+│   ├── nodes/           # BaseNode + 9 node type components
+│   └── ui/              # ShadCN components (Button, Input, Table, etc.)
+├── hooks/
+│   └── useWorkflowSocket.ts   # Socket connection, event handling, cursor sync
+├── pages/
+│   ├── Dashboard.tsx    # Workflow list
+│   ├── WorkflowEditor.tsx  # Canvas + sidebar + config + terminal
+│   ├── Login.tsx        # Auth form
+│   └── Signup.tsx       # Registration form
+├── socket/              # Connection factory + event constants
+├── store/               # Redux store + auth slice
+└── utils/               # Axios instance, connection validation (DAG + type checks)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Running
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
+
+Requires `VITE_BACKEND_HOST_URI` in `.env` pointing to the Express server.
