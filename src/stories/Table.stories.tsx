@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/table';
 
 const meta: Meta = {
-  title: 'EduManage/Table',
+  title: 'Autumn8/Table',
   component: Table,
   tags: ['autodocs'],
 };

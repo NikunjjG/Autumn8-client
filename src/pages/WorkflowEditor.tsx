@@ -303,16 +303,7 @@ const WorkflowEditor = () => {
         <div className="flex-1 relative min-h-0 overflow-hidden">
             <div className="absolute top-4 left-4 right-4 z-10 flex items-center justify-between">
               <div className="flex items-center gap-2.5 bg-white border border-slate-200 rounded-lg shadow-sm px-4 py-2.5">
-                <span className="text-sm font-semibold text-slate-900">{workflowName}</span>
-                {!isCollaborator && !isRenaming && (
-                  <button
-                    onClick={() => setIsRenaming(true)}
-                    className="text-slate-400 hover:text-slate-600 transition-colors"
-                  >
-                    <PencilSimple className="size-4" />
-                  </button>
-                )}
-                {!isCollaborator && isRenaming && (
+                {!isCollaborator && isRenaming ? (
                   <input
                     type="text"
                     value={workflowName}
@@ -325,9 +316,21 @@ const WorkflowEditor = () => {
                     autoFocus
                     className="text-sm font-semibold text-slate-900 bg-transparent border-none outline-none w-52"
                   />
-                )}
-                {isCollaborator && (
-                  <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">Live session &middot; Can't save</span>
+                ) : (
+                  <>
+                    <span className="text-sm font-semibold text-slate-900">{workflowName}</span>
+                    {!isCollaborator && (
+                      <button
+                        onClick={() => setIsRenaming(true)}
+                        className="text-slate-400 hover:text-slate-600 transition-colors"
+                      >
+                        <PencilSimple className="size-4" />
+                      </button>
+                    )}
+                    {isCollaborator && (
+                      <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">Live session &middot; Can't save</span>
+                    )}
+                  </>
                 )}
               </div>
               {!isCollaborator && (

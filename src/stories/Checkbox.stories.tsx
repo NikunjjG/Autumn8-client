@@ -2,7 +2,7 @@ import type { Meta } from '@storybook/react';
 import { Checkbox } from '@/components/ui/checkbox';
 
 const meta: Meta = {
-  title: 'EduManage/Checkbox',
+  title: 'Autumn8/Checkbox',
   component: Checkbox,
   tags: ['autodocs'],
 };

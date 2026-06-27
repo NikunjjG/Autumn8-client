@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/select';
 
 const meta: Meta = {
-  title: 'EduManage/Select',
+  title: 'Autumn8/Select',
   tags: ['autodocs'],
 };
 

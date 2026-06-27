@@ -2,7 +2,7 @@ import type { Meta } from '@storybook/react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 const meta: Meta = {
-  title: 'EduManage/RadioGroup',
+  title: 'Autumn8/RadioGroup',
   tags: ['autodocs'],
 };
 
