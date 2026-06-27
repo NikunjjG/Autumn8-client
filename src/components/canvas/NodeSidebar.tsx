@@ -15,6 +15,7 @@ interface NodeItem {
   label: string
   icon: ReactNode
   color: string
+  disabled?: boolean
 }
 
 interface NodeGroup {
@@ -34,7 +35,7 @@ const NODE_GROUPS: NodeGroup[] = [
     items: [
       { type: 'llm_agent', label: 'LLM Agent', icon: <Brain weight="fill" className="size-4" />, color: '#8B5CF6' },
       { type: 'structure', label: 'Structure', icon: <TreeStructure weight="fill" className="size-4" />, color: '#14B8A6' },
-      { type: 'code', label: 'Code', icon: <Terminal weight="bold" className="size-4" />, color: '#EAB308' },
+      { type: 'code', label: 'Code (Soon)', icon: <Terminal weight="bold" className="size-4" />, color: '#EAB308', disabled: true },
     ],
   },
   {
@@ -80,9 +81,13 @@ export default function NodeSidebar() {
               {group.items.map((item) => (
                 <div
                   key={item.type}
-                  draggable
-                  onDragStart={(e) => onDragStart(e, item.type)}
-                  className="flex items-center gap-2.5 px-2 py-2 rounded-md cursor-grab active:cursor-grabbing hover:bg-slate-50 transition-colors"
+                  draggable={!item.disabled}
+                  onDragStart={(e) => !item.disabled && onDragStart(e, item.type)}
+                  className={`flex items-center gap-2.5 px-2 py-2 rounded-md transition-colors ${
+                    item.disabled
+                      ? 'opacity-40 cursor-not-allowed'
+                      : 'cursor-grab active:cursor-grabbing hover:bg-slate-50'
+                  }`}
                 >
                   <div
                     className="flex items-center justify-center w-6 h-6 rounded shrink-0"
