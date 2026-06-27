@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Checkbox } from '@/components/ui/checkbox'
 import { EnvelopeSimple, LockSimple, WarningCircle, Eye, EyeSlash } from '@phosphor-icons/react'
 import { axiosInstance } from '@/utils/axiosInstance'
 import { useAppDispatch } from '@/store/store'
@@ -22,7 +21,6 @@ const loginSchema = z.object({
     .string()
     .min(1, 'Password is required.')
     .min(6, 'Password must be at least 6 characters.'),
-  rememberMe: z.boolean().optional(),
 })
 
 type LoginFormData = z.infer<typeof loginSchema>
@@ -53,15 +51,11 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '', rememberMe: false },
+    defaultValues: { email: '', password: '' },
   })
-
-  const rememberMe = watch('rememberMe')
 
   const onSubmit = async (data: LoginFormData) => {
     setFormError(null)
