@@ -70,7 +70,10 @@ export function useWorkflowSocket({
     })
 
     socket.on(WEB_SOCKET_ACTIONS.NODE_ADDED, (data: { node: Node }) => {
-      setNodes((nds) => [...nds, data.node])
+      setNodes((nds) => {
+        if (nds.some((n) => n.id === data.node.id)) return nds
+        return [...nds, data.node]
+      })
     })
 
     socket.on(WEB_SOCKET_ACTIONS.EDGE_ADDED, (data: { edge: Edge }) => {
