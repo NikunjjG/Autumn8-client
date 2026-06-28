@@ -10,7 +10,7 @@ function getCompatibleTargets(sourceHandle: string): string[] {
   return COMPATIBLE_HANDLES[sourceHandle] ?? []
 }
 
-const MULTI_CONNECTION_HANDLES = new Set<string>()
+const MULTI_CONNECTION_HANDLES = new Set<string>(['context_in'])
 
 function hasCycle(_nodes: Node[], edges: Edge[], newSource: string, newTarget: string): boolean {
   const adjacency: Record<string, string[]> = {}

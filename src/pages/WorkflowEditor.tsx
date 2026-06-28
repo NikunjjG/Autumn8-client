@@ -204,11 +204,17 @@ const WorkflowEditor = () => {
       })
 
       nodeId++
+
+      const defaultData: Record<string, Record<string, any>> = {
+        structure: { structureType: 'json', schema: '{\n  "name": "string"\n}' },
+        parallel: { branches: 2 },
+      }
+
       const newNode: Node = {
         id: `${type}_${nodeId}`,
         type,
         position,
-        data: {},
+        data: defaultData[type] ?? {},
       }
 
       setNodes((nds) => [...nds, newNode])
